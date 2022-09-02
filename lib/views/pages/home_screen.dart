@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:removebackground/core/controller/home_controller.dart';
 import 'package:removebackground/views/widget/cutom_button.dart';
+import 'package:screenshot/screenshot.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -50,12 +51,15 @@ class HomeScreen extends StatelessWidget {
                   ),
                   controller.isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : CustomButton(
-                          text: "remove bkground",
-                          bkColor: Colors.green,
-                          tap: () =>
-                              controller.uploadImage(controller.imageBefore!),
-                        ),
+                      : controller.imageBefore != null
+                          ? CustomButton(
+                              text: "remove bkground",
+                              bkColor: Colors.green,
+                              tap: () => controller.uploadImage(
+                                controller.imageBefore!,
+                              ),
+                            )
+                          : Container(),
                 ],
               ),
               const SizedBox(
@@ -67,6 +71,18 @@ class HomeScreen extends StatelessWidget {
                       controller.imageAfter!,
                       height: 250,
                     ),
+              const SizedBox(
+                height: 20,
+              ),
+              controller.imageAfter != null
+                  ? CustomButton(
+                      text: "save image",
+                      bkColor: Colors.amberAccent,
+                      tap: () => controller.saveImage(
+                        controller.imageAfter!,
+                      ),
+                    )
+                  : Container(),
               const SizedBox(
                 height: 20,
               ),
